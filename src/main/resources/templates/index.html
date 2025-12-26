@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ecoembes Client</title>
+</head>
+<body>
+    <h1>Ecoembes Client</h1>
+    
+    <div th:if="${message}">
+        <p th:text="${message}"></p>
+    </div>
+	
+	<p>Welcome to the Ecoembes Management System</p>
+    
+	<h2>Menu</h2>
+    <ul>
+        <li><a href="/dumpsters/add">Add New Dumpster</a></li>
+        <li><a href="/assign">Assign Dumpsters to Plant</a></li>
+    </ul>
+    
+</body>
+</html>
