@@ -21,6 +21,7 @@ public interface IEcoembesServiceProxy {
 	/* ECOEMBES CONTROLLER - Ecoembes */
 	List<RecyclingPlantDTO> getAllRecyclingPlants(String token);
 	Float getPlantCapacity(String token, String plantName);
-	boolean assignDumpsterToPlant(String token, List<Long> dumpsterIds, Long plantId); //Seq Diagram
+	boolean assignDumpsterToPlant(String token, List<Long> dumpsterIds, String plantName);
+    RecyclingPlantDTO getPlantByName(String token, String plantName);
 	List<AllocationDTO> getAllAllocations(String token);
 }

@@ -8,23 +8,62 @@
     <h1>Assign Dumpsters to Recycling Plant</h1>
     
     <div th:if="${error}">
+        <strong>Error:</strong>
         <p th:text="${error}"></p>
+    </div>
+    
+    <div th:if="${success}">
+        <strong>Success:</strong>
+        <p th:text="${success}"></p>
     </div>
     
     <form action="/assign" method="post">
         <div>
-            <label for="dumpsterIds">Dumpster IDs (comma-separated):</label>
-            <input type="text" id="dumpsterIds" name="dumpsterIds" placeholder="e.g., 1,2,3" required/>
+            <label>Select Dumpsters (hold Ctrl/Cmd to select multiple):</label>
+			<select name="dumpsterIds" multiple size="10" required style="width: 100%; height: 200px;">
+			    <option th:each="dumpster : ${dumpsters}"
+			            th:value="${dumpster.dumpster_id}"
+			            th:text="${'ID: ' + dumpster.dumpster_id + ' | ' + dumpster.location + ' | ' + dumpster.postal_code + ' | Level: ' + dumpster.fill_level + ' | Capacity: ' + dumpster.capacity + 'containers'}">
+			    </option>
+			</select>
+            <p><em>Hold Ctrl (Windows/Linux) or Cmd (Mac) and click to select multiple dumpsters</em></p>
         </div>
         
         <div>
-            <label for="plantId">Recycling Plant ID:</label>
-            <input type="number" id="plantId" name="plantId" min="1" required/>
+            <label for="plantName">Select Recycling Plant:</label>
+            <select id="plantName" name="plantName" required>
+                <option value="">-- Select a Plant --</option>
+                <option th:each="plant : ${plants}" 
+                        th:value="${plant.plant_name}"
+                        th:text="${plant.plant_name + ' (Available: ' + plant.current_capacity + ' / ' + plant.total_capacity + ' tons)'}">
+                </option>
+            </select>
         </div>
         
         <button type="submit">Assign Dumpsters</button>
     </form>
+	
+	<hr style="margin: 30px 0;">
+
+	<h2>Contenedores ya asignados</h2>
+
+	<div th:if="${allocations != null and !allocations.empty}">
+	    <!-- Agrupar por planta -->
+	    <div th:each="plant : ${plants}">
+	        <h3 th:text="${plant.plant_name}"></h3>
+	        <ul>
+	            <li th:each="allocation : ${allocations}"
+	                th:if="${allocation.plantId == plant.plant_id}"
+	                th:text="'ID: ' + ${allocation.dumpsterId}">
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+
+	<div th:if="${allocations == null or allocations.empty}">
+	    <p><em>No hay contenedores asignados aún</em></p>
+	</div>
     
-    <p><a href="/index">Back to Menu</a></p>
+    <p><a href="/index">Back to menu</a></p>
 </body>
 </html>
