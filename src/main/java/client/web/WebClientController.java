@@ -34,7 +34,7 @@ public class WebClientController {
         return "login"; // login.html
     }
 
-    // Added mapping for /index so redirect after successful login resolves to a controller view
+    //mapping for /index so redirect after successful login
     @GetMapping("/index")
     public String showIndex(Model model) {
         if (token == null || token.isEmpty()) {
@@ -48,10 +48,10 @@ public class WebClientController {
         Optional<String> tokenOpt = ecoembesServiceProxy.login(email, password);
         if (tokenOpt.isPresent()) {
             this.token = tokenOpt.get();
-            return "redirect:/index"; // Redirect to dashboard after login
+            return "redirect:/index"; //redirect to index after login
         } else {
             model.addAttribute("error", "Invalid credentials");
-            return "login"; // Show login page with error
+            return "login"; //login page with error
         }
     }
     
@@ -146,23 +146,22 @@ public class WebClientController {
     }
 
 
-    // Simple view endpoints to avoid 404 when clicking links on the dashboard
     @GetMapping("/dumpsters/view")
     public String viewDumpsters() {
         if (token == null || token.isEmpty()) return "redirect:/login";
-        return "index"; // placeholder - no dedicated template provided
+        return "index";
     }
 
     @GetMapping("/plants/view")
     public String viewPlants() {
         if (token == null || token.isEmpty()) return "redirect:/login";
-        return "index"; // placeholder
+        return "index"; 
     }
 
     @GetMapping("/allocations/view")
     public String viewAllocations() {
         if (token == null || token.isEmpty()) return "redirect:/login";
-        return "index"; // placeholder
+        return "index"; 
     }
 
     @GetMapping("/logout")
