@@ -164,7 +164,7 @@ public class WebClientController {
         return "index"; 
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout() {
         if (token != null && !token.isEmpty()) {
             ecoembesServiceProxy.logout(token);
